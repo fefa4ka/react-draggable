@@ -16,7 +16,7 @@
   "typings": "./typings/index.d.ts",
   "repository": {
     "type": "git",
-    "url": "https://github.com/mzabriskie/react-draggable.git"
+    "url": "https://github.com/nowgoant/react-draggable.git"
   },
   "keywords": [
     "react",
@@ -26,9 +26,9 @@
   "author": "Matt Zabriskie",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/mzabriskie/react-draggable/issues"
+    "url": "https://github.com/nowgoant/react-draggable/issues"
   },
-  "homepage": "https://github.com/mzabriskie/react-draggable",
+  "homepage": "https://github.com/nowgoant/react-draggable",
   "devDependencies": {
     "@types/react": "^16.0.0",
     "@types/react-dom": "^15.5.3",
