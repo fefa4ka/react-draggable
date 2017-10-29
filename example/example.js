@@ -14,7 +14,7 @@ var App = React.createClass({
   },
 
   handleDrag(e, ui) {
-    const {x, y} = this.state.deltaPosition;
+    const { x, y } = this.state.deltaPosition;
     this.setState({
       deltaPosition: {
         x: x + ui.deltaX,
@@ -24,32 +24,32 @@ var App = React.createClass({
   },
 
   onStart() {
-    this.setState({activeDrags: ++this.state.activeDrags});
+    this.setState({ activeDrags: ++this.state.activeDrags });
   },
 
   onStop() {
-    this.setState({activeDrags: --this.state.activeDrags});
+    this.setState({ activeDrags: --this.state.activeDrags });
   },
 
   // For controlled component
   adjustXPos(e) {
     e.preventDefault();
     e.stopPropagation();
-    const {x, y} = this.state.controlledPosition;
-    this.setState({controlledPosition: {x: x - 10, y}});
+    const { x, y } = this.state.controlledPosition;
+    this.setState({ controlledPosition: { x: x - 10, y } });
   },
 
   adjustYPos(e) {
     e.preventDefault();
     e.stopPropagation();
-    const {controlledPosition} = this.state;
-    const {x, y} = controlledPosition;
-    this.setState({controlledPosition: {x, y: y - 10}});
+    const { controlledPosition } = this.state;
+    const { x, y } = controlledPosition;
+    this.setState({ controlledPosition: { x, y: y - 10 } });
   },
 
   onControlledDrag(e, position) {
-    const {x, y} = position;
-    this.setState({controlledPosition: {x, y}});
+    const { x, y } = position;
+    this.setState({ controlledPosition: { x, y } });
   },
 
   onControlledDragStop(e, position) {
@@ -58,8 +58,8 @@ var App = React.createClass({
   },
 
   render() {
-    const dragHandlers = {onStart: this.onStart, onStop: this.onStop};
-    const {deltaPosition, controlledPosition} = this.state;
+    const dragHandlers = { onStart: this.onStart, onStop: this.onStop };
+    const { deltaPosition, controlledPosition } = this.state;
     return (
       <div>
         <h1>React Draggable</h1>
@@ -67,7 +67,9 @@ var App = React.createClass({
         <p>
           <a href="https://github.com/mzabriskie/react-draggable/blob/master/example/index.html">Demo Source</a>
         </p>
-        <Draggable {...dragHandlers}>
+        <Draggable {...dragHandlers} degree={30} ref={(e) => { this.draggable = e; }} onStop={() => {
+          console.log(this.draggable.positionRotate)
+        }}>
           <div className="box">I can be dragged anywhere</div>
         </Draggable>
         <Draggable axis="x" {...dragHandlers}>
@@ -103,11 +105,11 @@ var App = React.createClass({
         <Draggable grid={[50, 50]} {...dragHandlers}>
           <div className="box">I snap to a 50 x 50 grid</div>
         </Draggable>
-        <Draggable bounds={{top: -100, left: -100, right: 100, bottom: 100}} {...dragHandlers}>
+        <Draggable bounds={{ top: -100, left: -100, right: 100, bottom: 100 }} {...dragHandlers}>
           <div className="box">I can only be moved 100px in any direction.</div>
         </Draggable>
-        <div className="box" style={{height: '500px', width: '500px', position: 'relative', overflow: 'auto', padding: '0'}}>
-          <div style={{height: '1000px', width: '1000px', padding: '10px'}}>
+        <div className="box" style={{ height: '500px', width: '500px', position: 'relative', overflow: 'auto', padding: '0' }}>
+          <div style={{ height: '1000px', width: '1000px', padding: '10px' }}>
             <Draggable bounds="parent" {...dragHandlers}>
               <div className="box">
                 I can only be moved within my offsetParent.<br /><br />
@@ -128,11 +130,11 @@ var App = React.createClass({
           </div>
         </Draggable>
         <Draggable>
-          <div className="box" style={{position: 'absolute', bottom: '100px', right: '100px'}} {...dragHandlers}>
+          <div className="box" style={{ position: 'absolute', bottom: '100px', right: '100px' }} {...dragHandlers}>
             I already have an absolute position.
           </div>
         </Draggable>
-        <Draggable defaultPosition={{x: 25, y: 25}} {...dragHandlers}>
+        <Draggable defaultPosition={{ x: 25, y: 25 }} {...dragHandlers}>
           <div className="box">
             {"I have a default position of {x: 25, y: 25}, so I'm slightly offset."}
           </div>
@@ -167,4 +169,4 @@ var App = React.createClass({
   }
 });
 
-ReactDOM.render(<App/>, document.getElementById('container'));
+ReactDOM.render(<App />, document.getElementById('container'));
