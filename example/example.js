@@ -78,7 +78,7 @@ var App = React.createClass({
         <Draggable axis="y" {...dragHandlers}>
           <div className="box cursor-y">I can only be dragged vertically (y axis)</div>
         </Draggable>
-        <Draggable onStart={() => false}>
+        <Draggable onStart={() => false} disabled={true}>
           <div className="box">I don't want to be dragged</div>
         </Draggable>
         <Draggable onDrag={this.handleDrag} {...dragHandlers}>
