@@ -3,9 +3,6 @@
   "version": "0.0.6",
   "description": "React draggable component",
   "scripts": {
-    "test": "make test",
-    "test-debug": "karma start --browsers=Chrome",
-    "test-ie": "karma start --browsers=IE",
     "dev": "make dev",
     "build": "make clean build",
     "lint": "make lint",

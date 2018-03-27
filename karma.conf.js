@@ -81,7 +81,7 @@ module.exports = function(config) {
       PhantomJS_custom: {
         base: 'PhantomJS',
         options: {
-          viewportSize: {width: 1024, height: 768}
+          viewportSize: { width: 1024, height: 768 }
         }
       }
     },
