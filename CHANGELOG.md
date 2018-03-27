@@ -1,5 +1,9 @@
 # Changelog
 
+### 3.0.4 (Mar 27, 2018)
+
+- Addition: support the keyboard move.
+  - 
 ### 3.0.3 (Aug 31, 2017)
 
 - Bugfix: Fix deprecation warnings caused by `import * as React` (Flow best practice).
