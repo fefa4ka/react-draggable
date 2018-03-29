@@ -1,5 +1,5 @@
 var Draggable = window.ReactDraggable;
-
+var DraggableAlignGuide = window.ReactDraggable.DraggableAlignGuide;
 var App = React.createClass({
   getInitialState() {
     return {
@@ -61,18 +61,16 @@ var App = React.createClass({
     const dragHandlers = { onStart: this.onStart, onStop: this.onStop };
     const { deltaPosition, controlledPosition } = this.state;
     return (
-      <div>
-        <h1>React Draggable</h1>
+      <DraggableAlignGuide className="DraggableAlignGuide">
         <p>Active DragHandlers: {this.state.activeDrags}</p>
-        <p>
-          <a href="https://github.com/mzabriskie/react-draggable/blob/master/example/index.html">Demo Source</a>
-        </p>
-        <Draggable {...dragHandlers} degree={30} ref={(e) => { this.draggable = e; }} onStop={() => {
-          console.log(this.draggable.positionRotate)
-        }}>
+
+        <Draggable {...dragHandlers} degree={0} ref={(e) => { this.draggable = e; }}>
           <div className="box">I can be dragged anywhere</div>
         </Draggable>
-        <Draggable axis="x" {...dragHandlers}>
+        <Draggable {...dragHandlers} degree={0} ref={(e) => { this.draggable = e; }}>
+          <div className="box">I can be dragged anywhere</div>
+        </Draggable>
+        {/* <Draggable axis="x" {...dragHandlers}>
           <div className="box cursor-x">I can only be dragged horizonally (x axis)</div>
         </Draggable>
         <Draggable axis="y" {...dragHandlers}>
@@ -162,9 +160,9 @@ var App = React.createClass({
               <a href="#" onClick={this.adjustYPos}>Adjust y ({controlledPosition.y})</a>
             </p>
           </div>
-        </Draggable>
+        </Draggable> */}
 
-      </div>
+      </DraggableAlignGuide>
     );
   }
 });

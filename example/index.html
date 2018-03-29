@@ -1,13 +1,16 @@
 <!doctype html>
 <html>
+
 <head>
-  <meta charset="utf-8"/>
+  <meta charset="utf-8" />
   <title>React Draggable</title>
   <style type="text/css">
     * {
       box-sizing: border-box;
     }
-    html, body {
+
+    html,
+    body {
       height: 100%;
     }
 
@@ -18,15 +21,19 @@
       margin: 0 50px;
     }
 
-    .react-draggable, .cursor {
+    .react-draggable,
+    .cursor {
       cursor: move;
     }
+
     .no-cursor {
       cursor: auto;
     }
+
     .cursor-y {
       cursor: ns-resize;
     }
+
     .cursor-x {
       cursor: ew-resize;
     }
@@ -51,14 +58,40 @@
       padding: 10px;
       float: left;
     }
+
+    .DraggableAlignGuide {
+      height: 800px;
+      position: relative;
+    }
+
+    .guide {
+      left: 0;
+      top: 0;
+      position: absolute;
+      background: hsl(205, 100%, 75%);
+      color: hsl(205, 100%, 75%);
+      z-index: 2;
+    }
+
+    .guide.axis-x {
+      height: 100%;
+      width: 1px;
+    }
+
+    .guide.axis-y {
+      height: 1px;
+      width: 100%;
+    }
   </style>
 </head>
+
 <body>
-<div id="container"></div>
-<script src="//unpkg.com/react@15/dist/react.min.js"></script>
-<script src="//unpkg.com/react-dom@15/dist/react-dom.min.js"></script>
-<script src="//cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.29/browser.min.js"></script>
-<script src="../dist/react-draggable.js"></script>
-<script type="text/babel" src="../example/example.js"></script>
+  <div id="container"></div>
+  <script src="//unpkg.com/react@15/dist/react.min.js"></script>
+  <script src="//unpkg.com/react-dom@15/dist/react-dom.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.29/browser.min.js"></script>
+  <script src="../dist/react-draggable.js"></script>
+  <script type="text/babel" src="../example/example.js"></script>
 </body>
+
 </html>
