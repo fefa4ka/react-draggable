@@ -56,12 +56,14 @@ var App = React.createClass({
     this.onControlledDrag(e, position);
     this.onStop();
   },
-
+  onSnaping(snap) {
+    this.draggable1.moveSnaping(snap)
+  },
   render() {
     const dragHandlers = { onStart: this.onStart, onStop: this.onStop };
     const { deltaPosition, controlledPosition } = this.state;
     return (
-      <DraggableAlignGuide className="DraggableAlignGuide">
+      <DraggableAlignGuide className="DraggableAlignGuide" onSnaping={this.onSnaping}>
         <p>Active DragHandlers: {this.state.activeDrags}</p>
 
         <Draggable {...dragHandlers} degree={0} ref={(e) => { this.draggable2 = e; }}>
