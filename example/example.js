@@ -65,16 +65,16 @@ var App = React.createClass({
     return (
       <DraggableAlignGuide className="DraggableAlignGuide" onSnaping={this.onSnaping} snapTreshhold={2}>
         <p>Active DragHandlers: {this.state.activeDrags}</p>
-
         <Draggable {...dragHandlers} degree={0} ref={(e) => { this.draggable2 = e; }}>
           <div className="box">I can be dragged anywhere</div>
         </Draggable>
         <Draggable {...dragHandlers} degree={0} ref={(e) => { this.draggable1 = e; }}>
           <div className="box">I can be dragged anywhere</div>
         </Draggable>
-        {/* <Draggable axis="x" {...dragHandlers}>
+        <Draggable axis="x" {...dragHandlers}>
           <div className="box cursor-x">I can only be dragged horizonally (x axis)</div>
         </Draggable>
+        {/* 
         <Draggable axis="y" {...dragHandlers}>
           <div className="box cursor-y">I can only be dragged vertically (y axis)</div>
         </Draggable>
