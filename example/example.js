@@ -71,7 +71,7 @@ var App = React.createClass({
         <Draggable {...dragHandlers} degree={0} ref={(e) => { this.draggable1 = e; }}>
           <div className="box">I can be dragged anywhere</div>
         </Draggable>
-        <Draggable axis="x" {...dragHandlers}>
+        <Draggable axis="x" {...dragHandlers} ref={(e) => { this.draggable3 = e; }}>
           <div className="box cursor-x">I can only be dragged horizonally (x axis)</div>
         </Draggable>
         {/* 
