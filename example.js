@@ -1,5 +1,5 @@
 var Draggable = window.ReactDraggable;
-
+var DraggableAlignGuide = window.ReactDraggable.DraggableAlignGuide;
 var App = React.createClass({
   getInitialState() {
     return {
@@ -14,7 +14,7 @@ var App = React.createClass({
   },
 
   handleDrag(e, ui) {
-    const {x, y} = this.state.deltaPosition;
+    const { x, y } = this.state.deltaPosition;
     this.setState({
       deltaPosition: {
         x: x + ui.deltaX,
@@ -24,59 +24,61 @@ var App = React.createClass({
   },
 
   onStart() {
-    this.setState({activeDrags: ++this.state.activeDrags});
+    this.setState({ activeDrags: ++this.state.activeDrags });
   },
 
   onStop() {
-    this.setState({activeDrags: --this.state.activeDrags});
+    this.setState({ activeDrags: --this.state.activeDrags });
   },
 
   // For controlled component
   adjustXPos(e) {
     e.preventDefault();
     e.stopPropagation();
-    const {x, y} = this.state.controlledPosition;
-    this.setState({controlledPosition: {x: x - 10, y}});
+    const { x, y } = this.state.controlledPosition;
+    this.setState({ controlledPosition: { x: x - 10, y } });
   },
 
   adjustYPos(e) {
     e.preventDefault();
     e.stopPropagation();
-    const {controlledPosition} = this.state;
-    const {x, y} = controlledPosition;
-    this.setState({controlledPosition: {x, y: y - 10}});
+    const { controlledPosition } = this.state;
+    const { x, y } = controlledPosition;
+    this.setState({ controlledPosition: { x, y: y - 10 } });
   },
 
   onControlledDrag(e, position) {
-    const {x, y} = position;
-    this.setState({controlledPosition: {x, y}});
+    const { x, y } = position;
+    this.setState({ controlledPosition: { x, y } });
   },
 
   onControlledDragStop(e, position) {
     this.onControlledDrag(e, position);
     this.onStop();
   },
-
+  onSnaping(snap) {
+    this.draggable1.moveSnaping(snap)
+  },
   render() {
-    const dragHandlers = {onStart: this.onStart, onStop: this.onStop};
-    const {deltaPosition, controlledPosition} = this.state;
+    const dragHandlers = { onStart: this.onStart, onStop: this.onStop };
+    const { deltaPosition, controlledPosition } = this.state;
     return (
-      <div>
-        <h1>React Draggable</h1>
+      <DraggableAlignGuide className="DraggableAlignGuide" onSnaping={this.onSnaping} snapTreshhold={2}>
         <p>Active DragHandlers: {this.state.activeDrags}</p>
-        <p>
-          <a href="https://github.com/mzabriskie/react-draggable/blob/master/example/index.html">Demo Source</a>
-        </p>
-        <Draggable zIndex={100} {...dragHandlers}>
+        <Draggable {...dragHandlers} degree={0} ref={(e) => { this.draggable2 = e; }}>
           <div className="box">I can be dragged anywhere</div>
         </Draggable>
-        <Draggable axis="x" {...dragHandlers}>
+        <Draggable {...dragHandlers} degree={0} ref={(e) => { this.draggable1 = e; }}>
+          <div className="box">I can be dragged anywhere</div>
+        </Draggable>
+        <Draggable axis="x" {...dragHandlers} ref={(e) => { this.draggable3 = e; }}>
           <div className="box cursor-x">I can only be dragged horizonally (x axis)</div>
         </Draggable>
+        {/* 
         <Draggable axis="y" {...dragHandlers}>
           <div className="box cursor-y">I can only be dragged vertically (y axis)</div>
         </Draggable>
-        <Draggable onStart={() => false}>
+        <Draggable onStart={() => false} disabled={true}>
           <div className="box">I don't want to be dragged</div>
         </Draggable>
         <Draggable onDrag={this.handleDrag} {...dragHandlers}>
@@ -103,11 +105,11 @@ var App = React.createClass({
         <Draggable grid={[50, 50]} {...dragHandlers}>
           <div className="box">I snap to a 50 x 50 grid</div>
         </Draggable>
-        <Draggable bounds={{top: -100, left: -100, right: 100, bottom: 100}} zIndex={5} {...dragHandlers}>
+        <Draggable bounds={{ top: -100, left: -100, right: 100, bottom: 100 }} {...dragHandlers}>
           <div className="box">I can only be moved 100px in any direction.</div>
         </Draggable>
-        <div className="box" style={{height: '500px', width: '500px', position: 'relative', overflow: 'auto', padding: '0'}}>
-          <div style={{height: '1000px', width: '1000px', padding: '10px'}}>
+        <div className="box" style={{ height: '500px', width: '500px', position: 'relative', overflow: 'auto', padding: '0' }}>
+          <div style={{ height: '1000px', width: '1000px', padding: '10px' }}>
             <Draggable bounds="parent" {...dragHandlers}>
               <div className="box">
                 I can only be moved within my offsetParent.<br /><br />
@@ -128,16 +130,16 @@ var App = React.createClass({
           </div>
         </Draggable>
         <Draggable>
-          <div className="box" style={{position: 'absolute', bottom: '100px', right: '100px'}} {...dragHandlers}>
+          <div className="box" style={{ position: 'absolute', bottom: '100px', right: '100px' }} {...dragHandlers}>
             I already have an absolute position.
           </div>
         </Draggable>
-        <Draggable defaultPosition={{x: 25, y: 25}} {...dragHandlers}>
+        <Draggable defaultPosition={{ x: 25, y: 25 }} {...dragHandlers}>
           <div className="box">
             {"I have a default position of {x: 25, y: 25}, so I'm slightly offset."}
           </div>
         </Draggable>
-        <Draggable zIndex={100} position={controlledPosition} {...dragHandlers} onDrag={this.onControlledDrag}>
+        <Draggable position={controlledPosition} {...dragHandlers} onDrag={this.onControlledDrag}>
           <div className="box">
             My position can be changed programmatically. <br />
             I have a drag handler to sync state.
@@ -149,7 +151,7 @@ var App = React.createClass({
             </p>
           </div>
         </Draggable>
-        <Draggable zIndex={100} position={controlledPosition} {...dragHandlers} onStop={this.onControlledDragStop}>
+        <Draggable position={controlledPosition} {...dragHandlers} onStop={this.onControlledDragStop}>
           <div className="box">
             My position can be changed programmatically. <br />
             I have a dragStop handler to sync state.
@@ -160,11 +162,11 @@ var App = React.createClass({
               <a href="#" onClick={this.adjustYPos}>Adjust y ({controlledPosition.y})</a>
             </p>
           </div>
-        </Draggable>
+        </Draggable> */}
 
-      </div>
+      </DraggableAlignGuide>
     );
   }
 });
 
-ReactDOM.render(<App/>, document.getElementById('container'));
+ReactDOM.render(<App />, document.getElementById('container'));
