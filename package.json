@@ -1,6 +1,6 @@
 {
   "name": "react-draggable-rotate",
-  "version": "0.0.15",
+  "version": "0.0.17",
   "description": "React draggable component",
   "main": "dist/react-draggable.js",
   "browser": "dist/react-draggable.js",
@@ -11,7 +11,8 @@
     "dev": "make dev",
     "build": "make clean build",
     "lint": "make lint",
-    "flow": "flow"
+    "flow": "flow",
+    "make:publish": "make publish"
   },
   "typings": "./typings/index.d.ts",
   "repository": {

@@ -7,7 +7,7 @@
 		exports["ReactDraggable"] = factory(require("react-dom"), require("react"));
 	else
 		root["ReactDraggable"] = factory(root["ReactDOM"], root["React"]);
-})(typeof self !== 'undefined' ? self : this, function(__WEBPACK_EXTERNAL_MODULE_4__, __WEBPACK_EXTERNAL_MODULE_6__) {
+})(typeof self !== 'undefined' ? self : this, function(__WEBPACK_EXTERNAL_MODULE_0__, __WEBPACK_EXTERNAL_MODULE_3__) {
 return /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
 /******/ 	var installedModules = {};
@@ -75,173 +75,12 @@ return /******/ (function(modules) { // webpackBootstrap
 /************************************************************************/
 /******/ ([
 /* 0 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function(module, exports) {
 
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.findInArray = findInArray;
-exports.isFunction = isFunction;
-exports.isNum = isNum;
-exports.int = int;
-exports.dontSetMe = dontSetMe;
-
-// @credits https://gist.github.com/rogozhnikoff/a43cfed27c41e4e68cdc
-function findInArray(array /*: Array<any> | TouchList*/, callback /*: Function*/) /*: any*/ {
-  for (var i = 0, length = array.length; i < length; i++) {
-    if (callback.apply(callback, [array[i], i, array])) return array[i];
-  }
-}
-
-function isFunction(func /*: any*/) /*: boolean*/ {
-  return typeof func === 'function' || Object.prototype.toString.call(func) === '[object Function]';
-}
-
-function isNum(num /*: any*/) /*: boolean*/ {
-  return typeof num === 'number' && !isNaN(num);
-}
-
-function int(a /*: string*/) /*: number*/ {
-  return parseInt(a, 10);
-}
-
-function dontSetMe(props /*: Object*/, propName /*: string*/, componentName /*: string*/) {
-  if (props[propName]) {
-    return new Error('Invalid prop ' + propName + ' passed to ' + componentName + ' - do not set this, set it on the child.');
-  }
-}
+module.exports = __WEBPACK_EXTERNAL_MODULE_0__;
 
 /***/ }),
 /* 1 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-/**
- * Copyright (c) 2013-present, Facebook, Inc.
- *
- * This source code is licensed under the MIT license found in the
- * LICENSE file in the root directory of this source tree.
- *
- * 
- */
-
-function makeEmptyFunction(arg) {
-  return function () {
-    return arg;
-  };
-}
-
-/**
- * This function accepts and discards inputs; it has no side effects. This is
- * primarily useful idiomatically for overridable function endpoints which
- * always need to be callable, since JS lacks a null-call idiom ala Cocoa.
- */
-var emptyFunction = function emptyFunction() {};
-
-emptyFunction.thatReturns = makeEmptyFunction;
-emptyFunction.thatReturnsFalse = makeEmptyFunction(false);
-emptyFunction.thatReturnsTrue = makeEmptyFunction(true);
-emptyFunction.thatReturnsNull = makeEmptyFunction(null);
-emptyFunction.thatReturnsThis = function () {
-  return this;
-};
-emptyFunction.thatReturnsArgument = function (arg) {
-  return arg;
-};
-
-module.exports = emptyFunction;
-
-/***/ }),
-/* 2 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/**
- * Copyright (c) 2013-present, Facebook, Inc.
- *
- * This source code is licensed under the MIT license found in the
- * LICENSE file in the root directory of this source tree.
- *
- */
-
-
-
-/**
- * Use invariant() to assert state which your program assumes to be true.
- *
- * Provide sprintf-style format (only %s is supported) and arguments
- * to provide information about what broke and what you were
- * expecting.
- *
- * The invariant message will be stripped in production, but the invariant
- * will remain to ensure logic does not differ in production.
- */
-
-var validateFormat = function validateFormat(format) {};
-
-if (Object({"DRAGGABLE_DEBUG":undefined}).NODE_ENV !== 'production') {
-  validateFormat = function validateFormat(format) {
-    if (format === undefined) {
-      throw new Error('invariant requires an error message argument');
-    }
-  };
-}
-
-function invariant(condition, format, a, b, c, d, e, f) {
-  validateFormat(format);
-
-  if (!condition) {
-    var error;
-    if (format === undefined) {
-      error = new Error('Minified exception occurred; use the non-minified dev environment ' + 'for the full error message and additional helpful warnings.');
-    } else {
-      var args = [a, b, c, d, e, f];
-      var argIndex = 0;
-      error = new Error(format.replace(/%s/g, function () {
-        return args[argIndex++];
-      }));
-      error.name = 'Invariant Violation';
-    }
-
-    error.framesToPop = 1; // we don't care about invariant's own frame
-    throw error;
-  }
-}
-
-module.exports = invariant;
-
-/***/ }),
-/* 3 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/**
- * Copyright (c) 2013-present, Facebook, Inc.
- *
- * This source code is licensed under the MIT license found in the
- * LICENSE file in the root directory of this source tree.
- */
-
-
-
-var ReactPropTypesSecret = 'SECRET_DO_NOT_PASS_THIS_OR_YOU_WILL_BE_FIRED';
-
-module.exports = ReactPropTypesSecret;
-
-
-/***/ }),
-/* 4 */
-/***/ (function(module, exports) {
-
-module.exports = __WEBPACK_EXTERNAL_MODULE_4__;
-
-/***/ }),
-/* 5 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -272,7 +111,7 @@ exports.styleHacks = styleHacks;
 exports.addClassName = addClassName;
 exports.removeClassName = removeClassName;
 
-var _shims = __webpack_require__(0);
+var _shims = __webpack_require__(2);
 
 var _getPrefix = __webpack_require__(19);
 
@@ -475,13 +314,54 @@ function removeClassName(el /*: HTMLElement*/, className /*: string*/) {
 }
 
 /***/ }),
-/* 6 */
-/***/ (function(module, exports) {
+/* 2 */
+/***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __WEBPACK_EXTERNAL_MODULE_6__;
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.findInArray = findInArray;
+exports.isFunction = isFunction;
+exports.isNum = isNum;
+exports.int = int;
+exports.dontSetMe = dontSetMe;
+
+// @credits https://gist.github.com/rogozhnikoff/a43cfed27c41e4e68cdc
+function findInArray(array /*: Array<any> | TouchList*/, callback /*: Function*/) /*: any*/ {
+  for (var i = 0, length = array.length; i < length; i++) {
+    if (callback.apply(callback, [array[i], i, array])) return array[i];
+  }
+}
+
+function isFunction(func /*: any*/) /*: boolean*/ {
+  return typeof func === 'function' || Object.prototype.toString.call(func) === '[object Function]';
+}
+
+function isNum(num /*: any*/) /*: boolean*/ {
+  return typeof num === 'number' && !isNaN(num);
+}
+
+function int(a /*: string*/) /*: number*/ {
+  return parseInt(a, 10);
+}
+
+function dontSetMe(props /*: Object*/, propName /*: string*/, componentName /*: string*/) {
+  if (props[propName]) {
+    return new Error('Invalid prop ' + propName + ' passed to ' + componentName + ' - do not set this, set it on the child.');
+  }
+}
 
 /***/ }),
-/* 7 */
+/* 3 */
+/***/ (function(module, exports) {
+
+module.exports = __WEBPACK_EXTERNAL_MODULE_3__;
+
+/***/ }),
+/* 4 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /**
@@ -515,6 +395,126 @@ if (Object({"DRAGGABLE_DEBUG":undefined}).NODE_ENV !== 'production') {
 
 
 /***/ }),
+/* 5 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+/**
+ * Copyright (c) 2013-present, Facebook, Inc.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ * 
+ */
+
+function makeEmptyFunction(arg) {
+  return function () {
+    return arg;
+  };
+}
+
+/**
+ * This function accepts and discards inputs; it has no side effects. This is
+ * primarily useful idiomatically for overridable function endpoints which
+ * always need to be callable, since JS lacks a null-call idiom ala Cocoa.
+ */
+var emptyFunction = function emptyFunction() {};
+
+emptyFunction.thatReturns = makeEmptyFunction;
+emptyFunction.thatReturnsFalse = makeEmptyFunction(false);
+emptyFunction.thatReturnsTrue = makeEmptyFunction(true);
+emptyFunction.thatReturnsNull = makeEmptyFunction(null);
+emptyFunction.thatReturnsThis = function () {
+  return this;
+};
+emptyFunction.thatReturnsArgument = function (arg) {
+  return arg;
+};
+
+module.exports = emptyFunction;
+
+/***/ }),
+/* 6 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/**
+ * Copyright (c) 2013-present, Facebook, Inc.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
+
+
+
+/**
+ * Use invariant() to assert state which your program assumes to be true.
+ *
+ * Provide sprintf-style format (only %s is supported) and arguments
+ * to provide information about what broke and what you were
+ * expecting.
+ *
+ * The invariant message will be stripped in production, but the invariant
+ * will remain to ensure logic does not differ in production.
+ */
+
+var validateFormat = function validateFormat(format) {};
+
+if (Object({"DRAGGABLE_DEBUG":undefined}).NODE_ENV !== 'production') {
+  validateFormat = function validateFormat(format) {
+    if (format === undefined) {
+      throw new Error('invariant requires an error message argument');
+    }
+  };
+}
+
+function invariant(condition, format, a, b, c, d, e, f) {
+  validateFormat(format);
+
+  if (!condition) {
+    var error;
+    if (format === undefined) {
+      error = new Error('Minified exception occurred; use the non-minified dev environment ' + 'for the full error message and additional helpful warnings.');
+    } else {
+      var args = [a, b, c, d, e, f];
+      var argIndex = 0;
+      error = new Error(format.replace(/%s/g, function () {
+        return args[argIndex++];
+      }));
+      error.name = 'Invariant Violation';
+    }
+
+    error.framesToPop = 1; // we don't care about invariant's own frame
+    throw error;
+  }
+}
+
+module.exports = invariant;
+
+/***/ }),
+/* 7 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/**
+ * Copyright (c) 2013-present, Facebook, Inc.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
+
+
+
+var ReactPropTypesSecret = 'SECRET_DO_NOT_PASS_THIS_OR_YOU_WILL_BE_FIRED';
+
+module.exports = ReactPropTypesSecret;
+
+
+/***/ }),
 /* 8 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -529,7 +529,7 @@ if (Object({"DRAGGABLE_DEBUG":undefined}).NODE_ENV !== 'production') {
 
 
 
-var emptyFunction = __webpack_require__(1);
+var emptyFunction = __webpack_require__(5);
 
 /**
  * Similar to invariant but only logs a warning if the condition is not met.
@@ -600,13 +600,13 @@ exports.getControlPosition = getControlPosition;
 exports.createCoreData = createCoreData;
 exports.createDraggableData = createDraggableData;
 
-var _shims = __webpack_require__(0);
+var _shims = __webpack_require__(2);
 
-var _reactDom = __webpack_require__(4);
+var _reactDom = __webpack_require__(0);
 
 var _reactDom2 = _interopRequireDefault(_reactDom);
 
-var _domFns = __webpack_require__(5);
+var _domFns = __webpack_require__(1);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -754,23 +754,23 @@ var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = [
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _react = __webpack_require__(6);
+var _react = __webpack_require__(3);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _propTypes = __webpack_require__(7);
+var _propTypes = __webpack_require__(4);
 
 var _propTypes2 = _interopRequireDefault(_propTypes);
 
-var _reactDom = __webpack_require__(4);
+var _reactDom = __webpack_require__(0);
 
 var _reactDom2 = _interopRequireDefault(_reactDom);
 
-var _domFns = __webpack_require__(5);
+var _domFns = __webpack_require__(1);
 
 var _positionFns = __webpack_require__(9);
 
-var _shims = __webpack_require__(0);
+var _shims = __webpack_require__(2);
 
 var _log = __webpack_require__(11);
 
@@ -1254,7 +1254,7 @@ var Draggable = __webpack_require__(13).default;
 module.exports = Draggable;
 module.exports.default = Draggable;
 module.exports.DraggableCore = __webpack_require__(10).default;
-// module.exports.DraggableAlignGuide = require('./lib/DraggableAlignGuide').default;
+module.exports.DraggableAlignGuide = __webpack_require__(21).default;
 
 /***/ }),
 /* 13 */
@@ -1273,15 +1273,15 @@ var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = [
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _react = __webpack_require__(6);
+var _react = __webpack_require__(3);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _propTypes = __webpack_require__(7);
+var _propTypes = __webpack_require__(4);
 
 var _propTypes2 = _interopRequireDefault(_propTypes);
 
-var _reactDom = __webpack_require__(4);
+var _reactDom = __webpack_require__(0);
 
 var _reactDom2 = _interopRequireDefault(_reactDom);
 
@@ -1289,11 +1289,11 @@ var _classnames = __webpack_require__(18);
 
 var _classnames2 = _interopRequireDefault(_classnames);
 
-var _domFns = __webpack_require__(5);
+var _domFns = __webpack_require__(1);
 
 var _positionFns = __webpack_require__(9);
 
-var _shims = __webpack_require__(0);
+var _shims = __webpack_require__(2);
 
 var _DraggableCore = __webpack_require__(10);
 
@@ -1814,12 +1814,12 @@ exports.default = Draggable;
 
 
 
-var emptyFunction = __webpack_require__(1);
-var invariant = __webpack_require__(2);
+var emptyFunction = __webpack_require__(5);
+var invariant = __webpack_require__(6);
 var warning = __webpack_require__(8);
 var assign = __webpack_require__(15);
 
-var ReactPropTypesSecret = __webpack_require__(3);
+var ReactPropTypesSecret = __webpack_require__(7);
 var checkPropTypes = __webpack_require__(16);
 
 module.exports = function(isValidElement, throwOnDirectAccess) {
@@ -2461,9 +2461,9 @@ module.exports = shouldUseNative() ? Object.assign : function (target, source) {
 
 
 if (Object({"DRAGGABLE_DEBUG":undefined}).NODE_ENV !== 'production') {
-  var invariant = __webpack_require__(2);
+  var invariant = __webpack_require__(6);
   var warning = __webpack_require__(8);
-  var ReactPropTypesSecret = __webpack_require__(3);
+  var ReactPropTypesSecret = __webpack_require__(7);
   var loggedTypeFailures = {};
 }
 
@@ -2526,9 +2526,9 @@ module.exports = checkPropTypes;
 
 
 
-var emptyFunction = __webpack_require__(1);
-var invariant = __webpack_require__(2);
-var ReactPropTypesSecret = __webpack_require__(3);
+var emptyFunction = __webpack_require__(5);
+var invariant = __webpack_require__(6);
+var ReactPropTypesSecret = __webpack_require__(7);
 
 module.exports = function() {
   function shim(props, propName, componentName, location, propFullName, secret) {
@@ -2883,6 +2883,416 @@ process.chdir = function (dir) {
 };
 process.umask = function() { return 0; };
 
+
+/***/ }),
+/* 21 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(3);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _propTypes = __webpack_require__(4);
+
+var _propTypes2 = _interopRequireDefault(_propTypes);
+
+var _reactDom = __webpack_require__(0);
+
+var _reactDom2 = _interopRequireDefault(_reactDom);
+
+var _domFns = __webpack_require__(1);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var eventsFor = {
+  touch: {
+    start: 'touchstart',
+    move: 'touchmove',
+    stop: 'touchend'
+  },
+  mouse: {
+    start: 'mousedown',
+    move: 'mousemove',
+    stop: 'mouseup'
+  }
+};
+
+var remove = function remove(array, from, to) {
+  var rest = array.slice((to || from) + 1 || array.length);
+  array.length = from < 0 ? array.length + from : from;
+  return array.push.apply(array, rest);
+};
+
+var removeEntry = function removeEntry(array, entry) {
+  var index = array.indexOf(entry);
+  if (index !== -1) remove(array, index);
+};
+
+var getTarget = function getTarget(event) {
+  return event.currentTarget || event.target || event.srcElement;
+};
+
+var DraggableAlignGuide = function (_React$Component) {
+  _inherits(DraggableAlignGuide, _React$Component);
+
+  function DraggableAlignGuide(props) {
+    _classCallCheck(this, DraggableAlignGuide);
+
+    var _this = _possibleConstructorReturn(this, (DraggableAlignGuide.__proto__ || Object.getPrototypeOf(DraggableAlignGuide)).call(this, props));
+
+    _this.edges = null;
+    _this.staticGuides = null;
+    _this.x = 0;
+    _this.y = 0;
+    _this.mouseOffsetX = 0;
+    _this.mouseOffsetY = 0;
+
+    _this.drag = function (event) {
+      var box = getTarget(event);
+      var rect = box.getBoundingClientRect();
+      // console.log('box drag', event)
+      var parentRect = _this.clientRect;
+      _this.x = event.pageX - parentRect.left - _this.mouseOffsetX;
+      // this.x = event.pageX - parentRect.left - (event.pageX - rect.left);
+      _this.y = event.pageY - parentRect.top - _this.mouseOffsetY;
+      // console.log('getBoundingClientRect', event.pageX, parentRect.left, this.mouseOffsetX, this.x)
+      _this.snapToGuides({ box: box, parentRect: parentRect });
+    };
+
+    _this.stopToDrag = function (event) {
+      var box = getTarget(event);
+      // console.log('box stopToDrag', event)
+      _this.lockedAxis = null;
+      _this.chart();
+      _this.removeGuides();
+      (0, _domFns.removeEvent)(box, eventsFor.mouse.move, _this.drag);
+      (0, _domFns.removeEvent)(box, eventsFor.mouse.stop, _this.stopToDrag);
+    };
+
+    _this.state = {
+      boxes: [],
+      snapTreshhold: props.snapTreshhold || 5,
+      minimumDistance: 10,
+      offset: null,
+      staticGuides: null,
+      axis: []
+    };
+    return _this;
+  }
+
+  _createClass(DraggableAlignGuide, [{
+    key: 'componentDidMount',
+    value: function componentDidMount() {
+      this.resetStaticGuides();
+
+      this.chart();
+    }
+  }, {
+    key: 'chart',
+    value: function chart() {
+      var _this2 = this;
+
+      this.resetEdges();
+      // this.distances = new Object();
+      var boxes = this.boxes;
+      var parentRect = this.clientRect;
+      if (boxes && boxes.length) {
+        for (var key in boxes) {
+          if (boxes.hasOwnProperty(key)) {
+            (function () {
+              var box = boxes[key];
+
+              var _box$getBoundingClien = box.getBoundingClientRect(),
+                  x = _box$getBoundingClien.x,
+                  y = _box$getBoundingClien.y,
+                  width = _box$getBoundingClien.width,
+                  height = _box$getBoundingClien.height;
+
+              var interestPoints = _this2.getInterestPoints({
+                x: x - parentRect.x,
+                y: y - parentRect.y,
+                width: width,
+                height: height,
+                right: x - parentRect.x + width,
+                bottom: y - parentRect.y + height
+              });
+              _this2.edges.x.push.apply(_this2.edges.x, interestPoints.x);
+              _this2.edges.y.push.apply(_this2.edges.y, interestPoints.y);
+
+              var guide = box.getAttribute('data-guide');
+              if (!guide) {
+                box.setAttribute('data-guide', true);
+
+                (0, _domFns.addEvent)(box, eventsFor.mouse.start, function (e) {
+                  _this2.startToDrag(e, box);
+                });
+              }
+            })();
+          }
+        }
+      }
+
+      this.showAllGuides();
+    }
+  }, {
+    key: 'startToDrag',
+    value: function startToDrag(event, box) {
+      // event.stopPropagation();
+      var parentRect = this.clientRect;
+      var rect = box.getBoundingClientRect();
+      var _startX = rect.x - parentRect.x;
+      var _startY = rect.y - parentRect.y;
+      this.mouseOffsetX = event.pageX - rect.left;
+      this.mouseOffsetY = event.pageY - rect.top;
+      // console.log('box startToDrag getBoundingClientRect', rect, this.mouseOffsetX)
+      // console.log('distance - position', event.pageX, this.mouseOffsetX);
+
+      this.excludeBoxformEdges({
+        x: _startX,
+        y: _startY,
+        width: rect.width,
+        height: rect.height
+      });
+      // this.excludeBoxFromDistances();
+      this.showAllGuides();
+
+      this.drag(event);
+
+      (0, _domFns.addEvent)(box, eventsFor.mouse.move, this.drag);
+      (0, _domFns.addEvent)(box, eventsFor.mouse.stop, this.stopToDrag);
+    }
+  }, {
+    key: 'snapToGuides',
+    value: function snapToGuides(_ref) {
+      var box = _ref.box,
+          parentRect = _ref.parentRect;
+
+      var rect = box.getBoundingClientRect();
+
+      this.removeGuides();
+
+      var axis = [];
+
+      var xAxis = this.snap({
+        parentRect: parentRect,
+        rect: rect,
+        axis: 'x'
+      });
+
+      if (xAxis) {
+        axis.push(xAxis);
+      }
+
+      var yAxis = this.snap({
+        parentRect: parentRect,
+        rect: rect,
+        axis: 'y'
+      });
+
+      if (yAxis) {
+        axis.push(yAxis);
+      }
+
+      if (axis.length) {
+        this.setState({ axis: axis }, function () {
+          axis.forEach(function (item) {
+            // this.props.onSnaping(item)
+          });
+        });
+      }
+
+      this.props.onSnaping({
+        xDistance: this.x - (rect.x - parentRect.x),
+        yDistance: this.y - (rect.y - parentRect.y),
+        snapTreshhold: this.state.snapTreshhold
+      });
+    }
+  }, {
+    key: 'snap',
+    value: function snap(_ref2) {
+      var parentRect = _ref2.parentRect,
+          rect = _ref2.rect,
+          axis = _ref2.axis;
+      var snapTreshhold = this.state.snapTreshhold;
+
+      var side = axis === 'x' ? 'width' : 'height';
+      var start = axis === 'x' ? 'left' : 'top';
+      var end = axis === 'x' ? 'right' : 'bottom';
+      var edges = this.edges[axis];
+
+      for (var i = 0; i < edges.length; i++) {
+        var _position = edges[i];
+        var distance = this[axis];
+        var halfSideLength = Math.abs(rect[side] / 2);
+        var center = distance + halfSideLength;
+        var endDistance = distance + rect[side];
+        var setGuide = false;
+
+        if (Math.abs(distance - _position) <= snapTreshhold) {
+          this[axis] = _position;
+          setGuide = true;
+        } else if (Math.abs(center - _position) <= snapTreshhold) {
+          this[axis] = _position - halfSideLength; // move snap behavior 
+          setGuide = true;
+        } else if (Math.abs(endDistance - _position) <= snapTreshhold) {
+          this[axis] = _position - rect[side]; // move snap behavior     
+          setGuide = true;
+        }
+
+        if (setGuide) {
+          // console.log('success axis position moveDistance', axis, position)
+          return { axis: axis, position: _position
+            // this.parent.renderGuide(axis, position);
+          };
+        }
+      }
+    }
+  }, {
+    key: 'excludeBoxformEdges',
+    value: function excludeBoxformEdges(rect) {
+      if (this.edges) {
+        if (this.edges.x) {
+          removeEntry(this.edges.x, rect.x);
+          removeEntry(this.edges.x, rect.x + Math.round(rect.width / 2));
+          removeEntry(this.edges.x, rect.x + rect.width);
+        }
+
+        if (this.edges.y) {
+          removeEntry(this.edges.y, rect.y);
+          removeEntry(this.edges.y, rect.y + Math.round(rect.height / 2));
+          removeEntry(this.edges.y, rect.y + rect.height);
+        }
+      }
+    }
+  }, {
+    key: 'showAllGuides',
+    value: function showAllGuides() {}
+  }, {
+    key: 'removeGuides',
+    value: function removeGuides() {
+      this.setState({
+        axis: []
+      });
+    }
+  }, {
+    key: 'getInterestPoints',
+    value: function getInterestPoints(box) {
+      return {
+        x: [box.x, box.x + Math.round(box.width / 2), box.right],
+        y: [box.y, box.y + Math.round(box.height / 2), box.bottom]
+      };
+    }
+  }, {
+    key: 'resetStaticGuides',
+    value: function resetStaticGuides() {
+      var clientRect = this.clientRect;
+      this.staticGuides = {
+        x: [0, Math.round(clientRect.width / 2), clientRect.width],
+        y: [0, Math.round(clientRect.height / 2), clientRect.height]
+      };
+    }
+  }, {
+    key: 'resetEdges',
+    value: function resetEdges() {
+      // .slice() to only copy them - otherwise a reference would get created
+      this.edges = {
+        x: this.staticGuides.x.slice(),
+        y: this.staticGuides.y.slice()
+      };
+    }
+  }, {
+    key: 'renderGuide',
+    value: function renderGuide(_ref3) {
+      var string = _ref3.axis,
+          number = _ref3.position,
+          additionalClass = _ref3.additionalClass;
+
+      var className = 'guide axis-' + axis;
+      if (additionalClass) className += " " + additionalClass;
+
+      var _styles = {};
+      if (axis === 'x') {
+        _styles.left = position + 'px';
+      } else {
+        _styles.top = position + 'px';
+      }
+      return _react2.default.createElement('div', { className: className, style: _styles });
+    }
+  }, {
+    key: 'renderAxis',
+    value: function renderAxis() {
+      var _this3 = this;
+
+      var axis = this.state.axis;
+
+
+      if (axis && axis.length) {
+        return axis.map(function (item) {
+          return _this3.renderGuide(item);
+        });
+      }
+
+      return null;
+    }
+  }, {
+    key: 'render',
+    value: function render() {
+      var _state = this.state,
+          showAxisX = _state.showAxisX,
+          showAxisY = _state.showAxisY;
+      // Reuse the child provided
+      // This makes it flexible to use whatever element is wanted (div, ul, etc)
+
+      return _react2.default.createElement(
+        'div',
+        this.props,
+        this.props.children,
+        this.renderAxis()
+      );
+    }
+  }, {
+    key: 'boxes',
+    get: function get() {
+      return document.querySelectorAll(this.props.selector);
+    }
+  }, {
+    key: 'clientRect',
+    get: function get() {
+      var thisNode = _reactDom2.default.findDOMNode(this);
+      return thisNode.getBoundingClientRect && thisNode.getBoundingClientRect();
+    }
+  }]);
+
+  return DraggableAlignGuide;
+}(_react2.default.Component);
+
+DraggableAlignGuide.displayName = 'DraggableAlignGuide';
+DraggableAlignGuide.propTypes = {
+  snapTreshhold: _propTypes2.default.nubmer,
+  onSnaping: _propTypes2.default.func,
+  selector: _propTypes2.default.string
+};
+DraggableAlignGuide.defaultProps = {
+  snapTreshhold: 5,
+  selector: '.react-draggable',
+  onSnaping: function onSnaping() {}
+};
+exports.default = DraggableAlignGuide;
 
 /***/ })
 /******/ ]);
