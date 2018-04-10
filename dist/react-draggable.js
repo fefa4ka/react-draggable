@@ -2962,6 +2962,76 @@ var DraggableAlignGuide = function (_React$Component) {
     _this.mouseOffsetX = 0;
     _this.mouseOffsetY = 0;
 
+    _this.chart = function () {
+      _this.resetEdges();
+      // this.distances = new Object();
+      var boxes = _this.boxes;
+      var parentRect = _this.clientRect;
+      if (boxes && boxes.length) {
+        for (var key in boxes) {
+          if (boxes.hasOwnProperty(key)) {
+            (function () {
+              var box = boxes[key];
+
+              var _box$getBoundingClien = box.getBoundingClientRect(),
+                  x = _box$getBoundingClien.x,
+                  y = _box$getBoundingClien.y,
+                  width = _box$getBoundingClien.width,
+                  height = _box$getBoundingClien.height;
+
+              var interestPoints = _this.getInterestPoints({
+                x: x - parentRect.x,
+                y: y - parentRect.y,
+                width: width,
+                height: height,
+                right: x - parentRect.x + width,
+                bottom: y - parentRect.y + height
+              });
+              _this.edges.x.push.apply(_this.edges.x, interestPoints.x);
+              _this.edges.y.push.apply(_this.edges.y, interestPoints.y);
+
+              var guide = box.getAttribute('data-guide');
+              if (!guide) {
+                box.setAttribute('data-guide', true);
+
+                (0, _domFns.addEvent)(box, eventsFor.mouse.start, function (e) {
+                  _this.startToDrag(e, box);
+                });
+              }
+            })();
+          }
+        }
+      }
+
+      _this.showAllGuides();
+    };
+
+    _this.startToDrag = function (event, box) {
+      // event.stopPropagation();
+      var parentRect = _this.clientRect;
+      var rect = box.getBoundingClientRect();
+      var _startX = rect.x - parentRect.x;
+      var _startY = rect.y - parentRect.y;
+      _this.mouseOffsetX = event.pageX - rect.left;
+      _this.mouseOffsetY = event.pageY - rect.top;
+      // console.log('box startToDrag getBoundingClientRect', rect, this.mouseOffsetX)
+      // console.log('distance - position', event.pageX, this.mouseOffsetX);
+
+      _this.excludeBoxformEdges({
+        x: _startX,
+        y: _startY,
+        width: rect.width,
+        height: rect.height
+      });
+      // this.excludeBoxFromDistances();
+      _this.showAllGuides();
+
+      _this.drag(event);
+
+      (0, _domFns.addEvent)(box, eventsFor.mouse.move, _this.drag);
+      (0, _domFns.addEvent)(box, eventsFor.mouse.stop, _this.stopToDrag);
+    };
+
     _this.drag = function (event) {
       var box = getTarget(event);
       var rect = box.getBoundingClientRect();
@@ -2984,6 +3054,167 @@ var DraggableAlignGuide = function (_React$Component) {
       (0, _domFns.removeEvent)(box, eventsFor.mouse.stop, _this.stopToDrag);
     };
 
+    _this.snapToGuides = function (_ref) {
+      var box = _ref.box,
+          parentRect = _ref.parentRect;
+
+      var rect = box.getBoundingClientRect();
+
+      _this.removeGuides();
+
+      var axis = [];
+
+      var xAxis = _this.snap({
+        parentRect: parentRect,
+        rect: rect,
+        axis: 'x'
+      });
+
+      if (xAxis) {
+        axis.push(xAxis);
+      }
+
+      var yAxis = _this.snap({
+        parentRect: parentRect,
+        rect: rect,
+        axis: 'y'
+      });
+
+      if (yAxis) {
+        axis.push(yAxis);
+      }
+
+      if (axis.length) {
+        _this.setState({ axis: axis }, function () {
+          axis.forEach(function (item) {
+            // this.props.onSnaping(item)
+          });
+        });
+      }
+
+      _this.props.onSnaping({
+        xDistance: _this.x - (rect.x - parentRect.x),
+        yDistance: _this.y - (rect.y - parentRect.y),
+        snapTreshhold: _this.state.snapTreshhold
+      });
+    };
+
+    _this.snap = function (_ref2) {
+      var parentRect = _ref2.parentRect,
+          rect = _ref2.rect,
+          axis = _ref2.axis;
+      var snapTreshhold = _this.state.snapTreshhold;
+
+      var side = axis === 'x' ? 'width' : 'height';
+      var start = axis === 'x' ? 'left' : 'top';
+      var end = axis === 'x' ? 'right' : 'bottom';
+      var edges = _this.edges[axis];
+
+      for (var i = 0; i < edges.length; i++) {
+        var position = edges[i];
+        var distance = _this[axis];
+        var halfSideLength = Math.abs(rect[side] / 2);
+        var center = distance + halfSideLength;
+        var endDistance = distance + rect[side];
+        var setGuide = false;
+
+        if (Math.abs(distance - position) <= snapTreshhold) {
+          _this[axis] = position;
+          setGuide = true;
+        } else if (Math.abs(center - position) <= snapTreshhold) {
+          _this[axis] = position - halfSideLength; // move snap behavior 
+          setGuide = true;
+        } else if (Math.abs(endDistance - position) <= snapTreshhold) {
+          _this[axis] = position - rect[side]; // move snap behavior     
+          setGuide = true;
+        }
+
+        if (setGuide) {
+          return { axis: axis, position: position };
+        }
+      }
+    };
+
+    _this.excludeBoxformEdges = function (rect) {
+      if (_this.edges) {
+        if (_this.edges.x) {
+          removeEntry(_this.edges.x, rect.x);
+          removeEntry(_this.edges.x, rect.x + Math.round(rect.width / 2));
+          removeEntry(_this.edges.x, rect.x + rect.width);
+        }
+
+        if (_this.edges.y) {
+          removeEntry(_this.edges.y, rect.y);
+          removeEntry(_this.edges.y, rect.y + Math.round(rect.height / 2));
+          removeEntry(_this.edges.y, rect.y + rect.height);
+        }
+      }
+    };
+
+    _this.showAllGuides = function () {};
+
+    _this.removeGuides = function () {
+      _this.setState({
+        axis: []
+      });
+    };
+
+    _this.getInterestPoints = function (box) {
+      return {
+        x: [box.x, box.x + Math.round(box.width / 2), box.right],
+        y: [box.y, box.y + Math.round(box.height / 2), box.bottom]
+      };
+    };
+
+    _this.resetStaticGuides = function () {
+      var clientRect = _this.clientRect;
+      _this.staticGuides = {
+        x: [0, Math.round(clientRect.width / 2), clientRect.width],
+        y: [0, Math.round(clientRect.height / 2), clientRect.height]
+      };
+    };
+
+    _this.resetEdges = function () {
+      // .slice() to only copy them - otherwise a reference would get created
+      _this.edges = {
+        x: _this.staticGuides.x.slice(),
+        y: _this.staticGuides.y.slice()
+      };
+    };
+
+    _this.renderGuide = function () {
+      var item = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+      var axis = item.axis,
+          position = item.position,
+          additionalClass = item.additionalClass;
+
+      var className = 'guide axis-' + axis;
+      if (additionalClass) className += " " + additionalClass;
+
+      var _styles = {};
+      if (axis === 'x') {
+        _styles.left = position + 'px';
+      } else {
+        _styles.top = position + 'px';
+      }
+      return _react2.default.createElement('div', { className: className, style: _styles });
+    };
+
+    _this.renderAxis = function () {
+      var axis = _this.state.axis;
+
+
+      if (axis && axis.length) {
+        return axis.map(function (item) {
+          if (item) {
+            return _this.renderGuide(item);
+          }
+        });
+      }
+
+      return null;
+    };
+
     _this.state = {
       boxes: [],
       snapTreshhold: props.snapTreshhold || 5,
@@ -3001,253 +3232,6 @@ var DraggableAlignGuide = function (_React$Component) {
       this.resetStaticGuides();
 
       this.chart();
-    }
-  }, {
-    key: 'chart',
-    value: function chart() {
-      var _this2 = this;
-
-      this.resetEdges();
-      // this.distances = new Object();
-      var boxes = this.boxes;
-      var parentRect = this.clientRect;
-      if (boxes && boxes.length) {
-        for (var key in boxes) {
-          if (boxes.hasOwnProperty(key)) {
-            (function () {
-              var box = boxes[key];
-
-              var _box$getBoundingClien = box.getBoundingClientRect(),
-                  x = _box$getBoundingClien.x,
-                  y = _box$getBoundingClien.y,
-                  width = _box$getBoundingClien.width,
-                  height = _box$getBoundingClien.height;
-
-              var interestPoints = _this2.getInterestPoints({
-                x: x - parentRect.x,
-                y: y - parentRect.y,
-                width: width,
-                height: height,
-                right: x - parentRect.x + width,
-                bottom: y - parentRect.y + height
-              });
-              _this2.edges.x.push.apply(_this2.edges.x, interestPoints.x);
-              _this2.edges.y.push.apply(_this2.edges.y, interestPoints.y);
-
-              var guide = box.getAttribute('data-guide');
-              if (!guide) {
-                box.setAttribute('data-guide', true);
-
-                (0, _domFns.addEvent)(box, eventsFor.mouse.start, function (e) {
-                  _this2.startToDrag(e, box);
-                });
-              }
-            })();
-          }
-        }
-      }
-
-      this.showAllGuides();
-    }
-  }, {
-    key: 'startToDrag',
-    value: function startToDrag(event, box) {
-      // event.stopPropagation();
-      var parentRect = this.clientRect;
-      var rect = box.getBoundingClientRect();
-      var _startX = rect.x - parentRect.x;
-      var _startY = rect.y - parentRect.y;
-      this.mouseOffsetX = event.pageX - rect.left;
-      this.mouseOffsetY = event.pageY - rect.top;
-      // console.log('box startToDrag getBoundingClientRect', rect, this.mouseOffsetX)
-      // console.log('distance - position', event.pageX, this.mouseOffsetX);
-
-      this.excludeBoxformEdges({
-        x: _startX,
-        y: _startY,
-        width: rect.width,
-        height: rect.height
-      });
-      // this.excludeBoxFromDistances();
-      this.showAllGuides();
-
-      this.drag(event);
-
-      (0, _domFns.addEvent)(box, eventsFor.mouse.move, this.drag);
-      (0, _domFns.addEvent)(box, eventsFor.mouse.stop, this.stopToDrag);
-    }
-  }, {
-    key: 'snapToGuides',
-    value: function snapToGuides(_ref) {
-      var box = _ref.box,
-          parentRect = _ref.parentRect;
-
-      var rect = box.getBoundingClientRect();
-
-      this.removeGuides();
-
-      var axis = [];
-
-      var xAxis = this.snap({
-        parentRect: parentRect,
-        rect: rect,
-        axis: 'x'
-      });
-
-      if (xAxis) {
-        axis.push(xAxis);
-      }
-
-      var yAxis = this.snap({
-        parentRect: parentRect,
-        rect: rect,
-        axis: 'y'
-      });
-
-      if (yAxis) {
-        axis.push(yAxis);
-      }
-
-      if (axis.length) {
-        this.setState({ axis: axis }, function () {
-          axis.forEach(function (item) {
-            // this.props.onSnaping(item)
-          });
-        });
-      }
-
-      this.props.onSnaping({
-        xDistance: this.x - (rect.x - parentRect.x),
-        yDistance: this.y - (rect.y - parentRect.y),
-        snapTreshhold: this.state.snapTreshhold
-      });
-    }
-  }, {
-    key: 'snap',
-    value: function snap(_ref2) {
-      var parentRect = _ref2.parentRect,
-          rect = _ref2.rect,
-          axis = _ref2.axis;
-      var snapTreshhold = this.state.snapTreshhold;
-
-      var side = axis === 'x' ? 'width' : 'height';
-      var start = axis === 'x' ? 'left' : 'top';
-      var end = axis === 'x' ? 'right' : 'bottom';
-      var edges = this.edges[axis];
-
-      for (var i = 0; i < edges.length; i++) {
-        var _position = edges[i];
-        var distance = this[axis];
-        var halfSideLength = Math.abs(rect[side] / 2);
-        var center = distance + halfSideLength;
-        var endDistance = distance + rect[side];
-        var setGuide = false;
-
-        if (Math.abs(distance - _position) <= snapTreshhold) {
-          this[axis] = _position;
-          setGuide = true;
-        } else if (Math.abs(center - _position) <= snapTreshhold) {
-          this[axis] = _position - halfSideLength; // move snap behavior 
-          setGuide = true;
-        } else if (Math.abs(endDistance - _position) <= snapTreshhold) {
-          this[axis] = _position - rect[side]; // move snap behavior     
-          setGuide = true;
-        }
-
-        if (setGuide) {
-          // console.log('success axis position moveDistance', axis, position)
-          return { axis: axis, position: _position
-            // this.parent.renderGuide(axis, position);
-          };
-        }
-      }
-    }
-  }, {
-    key: 'excludeBoxformEdges',
-    value: function excludeBoxformEdges(rect) {
-      if (this.edges) {
-        if (this.edges.x) {
-          removeEntry(this.edges.x, rect.x);
-          removeEntry(this.edges.x, rect.x + Math.round(rect.width / 2));
-          removeEntry(this.edges.x, rect.x + rect.width);
-        }
-
-        if (this.edges.y) {
-          removeEntry(this.edges.y, rect.y);
-          removeEntry(this.edges.y, rect.y + Math.round(rect.height / 2));
-          removeEntry(this.edges.y, rect.y + rect.height);
-        }
-      }
-    }
-  }, {
-    key: 'showAllGuides',
-    value: function showAllGuides() {}
-  }, {
-    key: 'removeGuides',
-    value: function removeGuides() {
-      this.setState({
-        axis: []
-      });
-    }
-  }, {
-    key: 'getInterestPoints',
-    value: function getInterestPoints(box) {
-      return {
-        x: [box.x, box.x + Math.round(box.width / 2), box.right],
-        y: [box.y, box.y + Math.round(box.height / 2), box.bottom]
-      };
-    }
-  }, {
-    key: 'resetStaticGuides',
-    value: function resetStaticGuides() {
-      var clientRect = this.clientRect;
-      this.staticGuides = {
-        x: [0, Math.round(clientRect.width / 2), clientRect.width],
-        y: [0, Math.round(clientRect.height / 2), clientRect.height]
-      };
-    }
-  }, {
-    key: 'resetEdges',
-    value: function resetEdges() {
-      // .slice() to only copy them - otherwise a reference would get created
-      this.edges = {
-        x: this.staticGuides.x.slice(),
-        y: this.staticGuides.y.slice()
-      };
-    }
-  }, {
-    key: 'renderGuide',
-    value: function renderGuide(_ref3) {
-      var string = _ref3.axis,
-          number = _ref3.position,
-          additionalClass = _ref3.additionalClass;
-
-      var className = 'guide axis-' + axis;
-      if (additionalClass) className += " " + additionalClass;
-
-      var _styles = {};
-      if (axis === 'x') {
-        _styles.left = position + 'px';
-      } else {
-        _styles.top = position + 'px';
-      }
-      return _react2.default.createElement('div', { className: className, style: _styles });
-    }
-  }, {
-    key: 'renderAxis',
-    value: function renderAxis() {
-      var _this3 = this;
-
-      var axis = this.state.axis;
-
-
-      if (axis && axis.length) {
-        return axis.map(function (item) {
-          return _this3.renderGuide(item);
-        });
-      }
-
-      return null;
     }
   }, {
     key: 'render',
