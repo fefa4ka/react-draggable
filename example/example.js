@@ -35,6 +35,7 @@ var App = React.createClass({
 
   onMoveSnap(data) {
     console.log('onMoveSnap', data)
+    data.degree = 12;
   },
   // For controlled component
   adjustXPos(e) {
