@@ -23,14 +23,19 @@ var App = React.createClass({
     });
   },
 
-  onStart() {
+  onStart(e, data) {
+    console.log('onStart', data)
     this.setState({ activeDrags: ++this.state.activeDrags });
   },
 
-  onStop() {
+  onStop(e, data) {
+    console.log('onStop', data)
     this.setState({ activeDrags: --this.state.activeDrags });
   },
 
+  onMoveSnap(data) {
+    console.log('onMoveSnap', data)
+  },
   // For controlled component
   adjustXPos(e) {
     e.preventDefault();
@@ -60,7 +65,7 @@ var App = React.createClass({
     this.draggable1.moveSnaping(snap)
   },
   render() {
-    const dragHandlers = { onStart: this.onStart, onStop: this.onStop };
+    const dragHandlers = { onStart: this.onStart, onStop: this.onStop, onMoveSnap: this.onMoveSnap };
     const { deltaPosition, controlledPosition } = this.state;
     return (
       <DraggableAlignGuide className="DraggableAlignGuide" onSnaping={this.onSnaping} snapTreshhold={2}>

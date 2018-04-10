@@ -1,6 +1,6 @@
 {
   "name": "react-draggable-rotate",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "description": "React draggable component and alige guide",
   "scripts": {
     "dev": "make dev",
