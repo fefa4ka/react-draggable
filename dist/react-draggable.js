@@ -3184,6 +3184,7 @@ var DraggableAlignGuide = function (_React$Component) {
 
     _this.renderGuide = function () {
       var item = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+      var index = arguments[1];
       var axis = item.axis,
           position = item.position,
           additionalClass = item.additionalClass;
@@ -3197,7 +3198,7 @@ var DraggableAlignGuide = function (_React$Component) {
       } else {
         _styles.top = position + 'px';
       }
-      return _react2.default.createElement('div', { className: className, style: _styles });
+      return _react2.default.createElement('div', { key: index, className: className, style: _styles });
     };
 
     _this.renderAxis = function () {
@@ -3205,9 +3206,9 @@ var DraggableAlignGuide = function (_React$Component) {
 
 
       if (axis && axis.length) {
-        return axis.map(function (item) {
+        return axis.map(function (item, index) {
           if (item) {
-            return _this.renderGuide(item);
+            return _this.renderGuide(item, index);
           }
         });
       }

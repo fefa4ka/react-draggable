@@ -1,6 +1,6 @@
 {
   "name": "react-draggable-rotate",
-  "version": "0.0.19",
+  "version": "0.0.20",
   "description": "React draggable component",
   "main": "dist/react-draggable.js",
   "browser": "dist/react-draggable.js",
