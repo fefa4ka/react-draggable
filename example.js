@@ -23,14 +23,20 @@ var App = React.createClass({
     });
   },
 
-  onStart() {
+  onStart(e, data) {
+    console.log('onStart', data)
     this.setState({ activeDrags: ++this.state.activeDrags });
   },
 
-  onStop() {
+  onStop(e, data) {
+    console.log('onStop', data)
     this.setState({ activeDrags: --this.state.activeDrags });
   },
 
+  onMoveSnap(data) {
+    console.log('onMoveSnap', data)
+    data.degree = 12;
+  },
   // For controlled component
   adjustXPos(e) {
     e.preventDefault();
@@ -60,11 +66,11 @@ var App = React.createClass({
     this.draggable1.moveSnaping(snap)
   },
   render() {
-    const dragHandlers = { onStart: this.onStart, onStop: this.onStop };
+    const dragHandlers = { onStart: this.onStart, onStop: this.onStop, onMoveSnap: this.onMoveSnap };
     const { deltaPosition, controlledPosition } = this.state;
     return (
-      <DraggableAlignGuide className="DraggableAlignGuide" onSnaping={this.onSnaping} snapTreshhold={2}>
-        <p>Active DragHandlers: {this.state.activeDrags}</p>
+      <DraggableAlignGuide wrapperProps={{ className: "DraggableAlignGuide" }} onSnaping={this.onSnaping} snapTreshhold={2}>
+        <p> Active DragHandlers: {this.state.activeDrags}</p>
         <Draggable {...dragHandlers} degree={0} ref={(e) => { this.draggable2 = e; }}>
           <div className="box">I can be dragged anywhere</div>
         </Draggable>
@@ -164,7 +170,7 @@ var App = React.createClass({
           </div>
         </Draggable> */}
 
-      </DraggableAlignGuide>
+      </DraggableAlignGuide >
     );
   }
 });
